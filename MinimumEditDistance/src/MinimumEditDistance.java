@@ -2,7 +2,9 @@
 public class MinimumEditDistance {
 	
 	public static final String SKIP_CHARACTER = "_";
-	public static final String SPACER = " ";
+	public static final String SPACER = "   ";
+	public static final String EQUAL = " = ";
+	public static final String SWAP = " X ";
 	
 	private String stringA;
 	private String stringB;
@@ -122,7 +124,11 @@ public class MinimumEditDistance {
 		}
 		
 		//Difference is with cell below and to the left
-		System.out.println(this.stringA.charAt(columnIndex - 1) + SPACER + this.stringB.charAt(rowIndex - 1));
+		if (this.stringA.charAt(columnIndex - 1) == this.stringB.charAt(rowIndex - 1)) {
+			System.out.println(this.stringA.charAt(columnIndex - 1) + EQUAL + this.stringB.charAt(rowIndex - 1));
+		} else {
+			System.out.println(this.stringA.charAt(columnIndex - 1) + SWAP + this.stringB.charAt(rowIndex - 1));
+		}
 		printTraceback(rowIndex - 1, columnIndex - 1);
 		return;
 		
