@@ -1,6 +1,13 @@
 
 public class MinimumEditDistance {
 	
+	public static final String SKIP_CHARACTER = "_";
+	public static final String SPACER = " ";
+	public static final String LEFT = "L";
+	public static final String BELOW = "B";
+	public static final String BELOW_LEFT = "D";
+	
+	
 	private String stringA;
 	private String stringB;
 	private final int stringALength;
@@ -18,14 +25,14 @@ public class MinimumEditDistance {
 		this.stringB = stringB;
 		this.stringALength = stringA.length();
 		this.stringBLength = stringB.length();
-		this.stringAlignmentCache = new int[this.stringALength + 1][this.stringBLength + 1];
-		alignStrings();
+		this.stringAlignmentCache = new int[this.stringBLength + 1][this.stringALength + 1];
+		findAlignmentScore();
 	}
 	
 	/**
-	 * Find the string alignment using dynamic programming
+	 * Find the string alignment score using dynamic programming
 	 */
-	private void alignStrings() {
+	private void findAlignmentScore() {
 		
 		//Initialize bottom row of cache
 		for (int columnCounter = 0; columnCounter <= this.stringALength; ++columnCounter) {
@@ -42,10 +49,10 @@ public class MinimumEditDistance {
 		for (int columnCounter = 1; columnCounter <= this.stringALength; ++columnCounter) {
 			for (int rowCounter = 1; rowCounter <= this.stringBLength; ++rowCounter) {
 				
-				this.stringAlignmentCache[columnCounter][rowCounter] = getMinimumScore(this.stringAlignmentCache[columnCounter - 1][rowCounter] + 1, 
-																					   this.stringAlignmentCache[columnCounter][rowCounter - 1] + 1, 
-																					   this.stringAlignmentCache[columnCounter - 1][rowCounter - 1] + 
-																					   this.stringA.charAt(columnCounter) == this.stringB.charAt(rowCounter) ? 0 : 1);
+				this.stringAlignmentCache[rowCounter][columnCounter] = getMinimumScore(this.stringAlignmentCache[rowCounter - 1][columnCounter] + 1, 
+																					   this.stringAlignmentCache[rowCounter][columnCounter - 1] + 1, 
+																					   this.stringAlignmentCache[rowCounter - 1][columnCounter - 1] + 
+																					  (this.stringA.charAt(columnCounter - 1) == this.stringB.charAt(rowCounter - 1) ? 0 : 1));
 				
 			}
 		}
@@ -68,20 +75,60 @@ public class MinimumEditDistance {
 	 * @return the number of substitutions, insertions or deletions needed to convert one string to another
 	 */
 	public int getAlignmentScore() {
-		return this.stringAlignmentCache[stringA.length()][stringB.length()];
+		return this.stringAlignmentCache[stringB.length()][stringA.length()];
 	}
 	
 	/**
-	 * @return a string containing the steps to convert string A to string B
+	 * Print the steps needs to convert one string to another
 	 */
-	public String getTracebackSteps() {
+	public void printTracebackSteps() {
 		
-		StringBuffer tracebackSteps = new StringBuffer();
+		printTraceback(this.stringBLength, this.stringALength);
 		
+	}
+	
+	/**
+	 * Recursive method to print the steps needs to convert one string to another
+	 */
+	private void printTraceback(int rowIndex, int columnIndex) {
 		
+		//Base case where no more characters are left
+		if (columnIndex == 0 && rowIndex == 0) {
+			return;
+		}
 		
+		//String A is over
+		if (columnIndex == 0) {
+			System.out.println(SKIP_CHARACTER + SPACER + this.stringB.charAt(rowIndex - 1));
+			printTraceback(rowIndex - 1, columnIndex);
+			return;
+		}
 		
-		return tracebackSteps.toString();
+		//String B is over
+		if (rowIndex == 0) {
+			System.out.println(this.stringA.charAt(columnIndex - 1) + SPACER + SKIP_CHARACTER);
+			printTraceback(rowIndex, columnIndex - 1);
+			return;
+		}
+		
+		//If one more than cell to the left
+		if (this.stringAlignmentCache[rowIndex][columnIndex] == this.stringAlignmentCache[rowIndex][columnIndex - 1] + 1) {
+			System.out.println(this.stringA.charAt(columnIndex - 1) + SPACER + SKIP_CHARACTER);
+			printTraceback(rowIndex, columnIndex - 1);
+			return;
+		}
+		
+		//If one more than cell below
+		if (this.stringAlignmentCache[rowIndex][columnIndex] == this.stringAlignmentCache[rowIndex - 1][columnIndex] + 1) {
+			System.out.println(SKIP_CHARACTER + SPACER + this.stringB.charAt(rowIndex - 1));
+			printTraceback(rowIndex - 1, columnIndex);
+			return;
+		}
+		
+		//Difference is with cell below and to the left
+		System.out.println(this.stringA.charAt(columnIndex - 1) + SPACER + this.stringB.charAt(rowIndex - 1));
+		printTraceback(rowIndex - 1, columnIndex - 1);
+		return;
 		
 	}
 
