@@ -10,6 +10,9 @@ public class MinimumEditDistanceClient {
 	
 	private Random randomNumberGenerator;
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		MinimumEditDistanceClient minimumEditDistanceClient = new MinimumEditDistanceClient();
@@ -17,12 +20,18 @@ public class MinimumEditDistanceClient {
 
 	}
 	
+	/**
+	 * Constructor
+	 */
 	public MinimumEditDistanceClient() {
 		
 		this.randomNumberGenerator = new Random(System.currentTimeMillis());
 		
 	}
 	
+	/**
+	 * Show the difference between the strings
+	 */
 	private void showStringAlignment() {
 		
 		MinimumEditDistance minimumEditDistance = new MinimumEditDistance(getRandomNucleotideString(), getRandomNucleotideString());
@@ -31,6 +40,9 @@ public class MinimumEditDistanceClient {
 		
 	}
 	
+	/**
+	 * @return a random nucleotide string
+	 */
 	private String getRandomNucleotideString() {
 		
 		StringBuffer randomNucleotideString = new StringBuffer();
