@@ -1,8 +1,8 @@
 
 public class MinimumEditDistanceClient {
 	
-	public static final String stringA = "AGTTCAAT";
-	public static final String stringB = "GTGAATC";
+	public static final String stringA = "ATGTTAT";
+	public static final String stringB = "ATCGTAC";
 	
 
 	public static void main(String[] args) {

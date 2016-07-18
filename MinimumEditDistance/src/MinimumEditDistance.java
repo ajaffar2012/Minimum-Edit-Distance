@@ -3,10 +3,6 @@ public class MinimumEditDistance {
 	
 	public static final String SKIP_CHARACTER = "_";
 	public static final String SPACER = " ";
-	public static final String LEFT = "L";
-	public static final String BELOW = "B";
-	public static final String BELOW_LEFT = "D";
-	
 	
 	private String stringA;
 	private String stringB;
