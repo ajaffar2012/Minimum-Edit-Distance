@@ -1,0 +1,199 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{sectsty} % Allows customizing section commands
+\usepackage[top=5em]{geometry}
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{5pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{chngcntr}
+\usepackage{csquotes}
+\usepackage{flexisym}
+\usepackage{algorithm,algpseudocode}
+\usepackage[toc,page]{appendix}
+\newcommand\Mycomb[2][n]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+
+\counterwithout{figure}{section}
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Utah State University, Computer Science Department} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge CS 6670 Advanced Bioinformatics\\Assignment 4 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gopal Menon} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+\begin{enumerate}
+
+\item \textbf{Output format}
+
+The program generates two random nucleotide strings and then finds the alignment score or edit distance using dynamic programming. Then it uses the traceback algorithm to print out the string alignment.
+
+The program generates the following output
+
+\begin{enumerate}
+
+\item The two strings are printed out
+
+\item The alignment string or edit distance is printed out
+
+\item The alignment is then printed out in reverse order of the string. The following convention is used:
+
+\begin{enumerate}
+
+\item If a character in one string is substituted by another, then it is shown in the form $T \times A$, where $T$ in the first string is replaced by an $A$.
+ 
+ \item If a character in one string matches with a character in the other string, then this is shown using the form $C = C$.
+ 
+ \item If a character needs to be inserted into the first string to match the second string, then it is shown using the form $\_ \quad C$.
+ 
+\end{enumerate}
+ 
+\end{enumerate}
+
+\item \textbf{Test Cases and Corresponding Output}
+
+Here are some instances of randomly generated strings and the output produced by the program.
+\clearpage
+
+\begin{verbatim}
+
+First string: TCTAAAGCACG
+Second string: GGAATTGTGAC
+
+Alignment score: 9
+
+G X C
+C   _
+A = A
+_   G
+C X T
+G = G
+_   T
+A X T
+A = A
+A = A
+T   _
+C X G
+T X G
+
+First string: TGCCCAATCCCACTTT
+Second string: ATTTAGTTGTGGAGTGAGATTCTTG
+
+Alignment score: 17
+
+_   G
+T = T
+T = T
+_   C
+T = T
+C X T
+A = A
+C X G
+C X A
+C X G
+T = T
+_   G
+A = A
+_   G
+_   G
+A X T
+C X G
+C X T
+C X T
+G = G
+_   A
+_   T
+_   T
+T = T
+_   A
+
+First string: GCTTTCGTACTTTC
+Second string: ACGGGCCGCGGATCGTAGCC
+
+Alignment score: 13
+
+_   C
+C = C
+_   G
+T X A
+T = T
+T X G
+C = C
+_   T
+A = A
+_   G
+_   G
+T X C
+G = G
+_   C
+C = C
+T X G
+T X G
+T X G
+C = C
+G X A
+
+
+\end{verbatim}
+
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
