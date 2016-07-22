@@ -11,6 +11,8 @@ public class MinimumEditDistance {
 	private final int stringALength;
 	private final int stringBLength;
 	private int[][] stringAlignmentCache;
+	private boolean useRecursion;
+	private int alignmentScore;
 	
 	/**
 	 * Constructor
@@ -18,19 +20,52 @@ public class MinimumEditDistance {
 	 * @param stringA
 	 * @param stringB
 	 */
-	public MinimumEditDistance(String stringA, String stringB) {
+	public MinimumEditDistance(String stringA, String stringB, boolean useRecursion) {
 		this.stringA = stringA;
 		this.stringB = stringB;
 		this.stringALength = stringA.length();
 		this.stringBLength = stringB.length();
 		this.stringAlignmentCache = new int[this.stringBLength + 1][this.stringALength + 1];
-		findAlignmentScore();
+		this.useRecursion = useRecursion;
+		this.alignmentScore = 0;
+		if (this.useRecursion) {
+			findAlignmentScoreByRecursion();
+		} else {
+			findAlignmentScoreByDynamicProgramming();
+		}
+	}
+	
+	/**
+	 * Use recursion to find alignment score
+	 */
+	private void findAlignmentScoreByRecursion() {
+		this.alignmentScore = getAlignmentScoreByRecursionAtDepth(this.stringB.length(), this.stringA.length());
+	}
+	
+	/**
+	 * @param rowIndex
+	 * @param columnIndex
+	 * @return the string alignment score using recursion
+	 */
+	private int getAlignmentScoreByRecursionAtDepth(int rowIndex, int columnIndex) {
+		
+		if (rowIndex == 0) {
+			return columnIndex;
+		}
+		
+		if (columnIndex == 0) {
+			return rowIndex;
+		}
+		
+		return getMinimumScore(getAlignmentScoreByRecursionAtDepth(rowIndex - 1, columnIndex) + 1,
+							   getAlignmentScoreByRecursionAtDepth(rowIndex, columnIndex - 1) + 1, 
+							   getAlignmentScoreByRecursionAtDepth(rowIndex - 1, columnIndex - 1) + (this.stringB.charAt(rowIndex - 1) == this.stringA.charAt(columnIndex - 1) ? 0 : 1));
 	}
 	
 	/**
 	 * Find the string alignment score using dynamic programming
 	 */
-	private void findAlignmentScore() {
+	private void findAlignmentScoreByDynamicProgramming() {
 		
 		//Initialize bottom row of cache
 		for (int columnCounter = 0; columnCounter <= this.stringALength; ++columnCounter) {
@@ -55,6 +90,8 @@ public class MinimumEditDistance {
 			}
 		}
 		
+		this.alignmentScore = this.stringAlignmentCache[this.stringB.length()][this.stringA.length()];
+		
 	}
 	
 	/**
@@ -65,7 +102,7 @@ public class MinimumEditDistance {
 	 */
 	private int getMinimumScore(int integer1, int integer2, int integer3) {
 		
-		return Math.min(Math.min(integer1, integer1), integer3);
+		return Math.min(Math.min(integer1, integer2), integer3);
 		
 	}
 	
@@ -73,13 +110,14 @@ public class MinimumEditDistance {
 	 * @return the number of substitutions, insertions or deletions needed to convert one string to another
 	 */
 	public int getAlignmentScore() {
-		return this.stringAlignmentCache[stringB.length()][stringA.length()];
+		return this.alignmentScore;
 	}
 	
 	/**
 	 * Print the steps needs to convert one string to another
+	 * @throws Exception 
 	 */
-	public void printTracebackSteps() {
+	public void printTracebackSteps() throws Exception {
 		
 		printTraceback(this.stringBLength, this.stringALength);
 		
@@ -87,8 +125,13 @@ public class MinimumEditDistance {
 	
 	/**
 	 * Recursive method to print the steps needs to convert one string to another
+	 * @throws Exception 
 	 */
-	private void printTraceback(int rowIndex, int columnIndex) {
+	private void printTraceback(int rowIndex, int columnIndex) throws Exception {
+		
+		if (this.useRecursion) {
+			throw new Exception("Traceback not possible when score is found by recursion!!!");
+		}
 		
 		//Base case where no more characters are left
 		if (columnIndex == 0 && rowIndex == 0) {

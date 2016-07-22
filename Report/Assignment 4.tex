@@ -80,6 +80,12 @@
 
 \begin{enumerate}
 
+\item \textbf{Calling Modes}
+
+The program can find the alignment score using both recursion and dynamic programming. If it is passed a parameter of $Y$, it will skip the recursion and do only the dynamic programming part. Otherwise it will do both. In the cases where long strings of maximum length upto $30$ characters are generated, the recursive computation is skipped.
+
+The main class that does the alignment can be used only in one of the two modes. If it is called in dynamic programming mode, it can be asked to print the alignment of the two strings.
+
 \item \textbf{Output format}
 
 The program generates two random nucleotide strings and then finds the alignment score or edit distance using dynamic programming. Then it uses the traceback algorithm to print out the string alignment.
@@ -90,7 +96,9 @@ The program generates the following output
 
 \item The two strings are printed out
 
-\item The alignment string or edit distance is printed out
+\item If applicable, the alignment string or edit distance found using the recursive mode is printed out
+
+\item The alignment string or edit distance found using the dynamic programming mode is printed out
 
 \item The alignment is then printed out in reverse order of the string. The following convention is used:
 
@@ -109,85 +117,72 @@ The program generates the following output
 \item \textbf{Test Cases and Corresponding Output}
 
 Here are some instances of randomly generated strings and the output produced by the program.
-\clearpage
 
 \begin{verbatim}
+First string: GCCGTA
+Second string: TACCACGTGATCG
 
-First string: TCTAAAGCACG
-Second string: GGAATTGTGAC
+Alignment score by recursion: 8
 
-Alignment score: 9
-
-G X C
-C   _
-A = A
-_   G
-C X T
-G = G
-_   T
-A X T
-A = A
-A = A
-T   _
-C X G
-T X G
-
-First string: TGCCCAATCCCACTTT
-Second string: ATTTAGTTGTGGAGTGAGATTCTTG
-
-Alignment score: 17
+Alignment score by Dynamic Programming: 8
 
 _   G
-T = T
-T = T
 _   C
-T = T
-C X T
-A = A
-C X G
-C X A
-C X G
-T = T
-_   G
+_   T
 A = A
 _   G
-_   G
-A X T
-C X G
-C X T
-C X T
+T = T
 G = G
-_   A
-_   T
-_   T
-T = T
-_   A
-
-First string: GCTTTCGTACTTTC
-Second string: ACGGGCCGCGGATCGTAGCC
-
-Alignment score: 13
-
 _   C
+_   A
 C = C
-_   G
+C = C
+_   A
+G X T
+
+First string: GAATCT
+Second string: TCCATCG
+
+Alignment score by recursion: 4
+
+Alignment score by Dynamic Programming: 4
+
+T X G
+C = C
+T = T
+A = A
+_   C
+A X C
+G X T
+\end{verbatim}
+\clearpage
+\begin{verbatim}
+First string: CTACTGCTATTCCGC
+Second string: TCGGACTCTTAAGCTTGG
+
+Recursive alignment score computation skipped.
+
+Alignment score by Dynamic Programming: 10
+
+C X G
+G = G
+_   T
+C X T
+C = C
+T X G
 T X A
+A = A
+_   T
 T = T
+C = C
+G   _
+T = T
+C = C
+A = A
+_   G
 T X G
 C = C
 _   T
-A = A
-_   G
-_   G
-T X C
-G = G
-_   C
-C = C
-T X G
-T X G
-T X G
-C = C
-G X A
 
 
 \end{verbatim}
